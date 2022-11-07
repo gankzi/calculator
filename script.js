@@ -139,7 +139,7 @@ function setOperator(val) {
     display.innerHTML = "";
   } 
 
-  if (lastOp == "+" || lastOp == "-" || lastOp == "/" || lastOp == "*") {
+  if (lastOp == "+" || lastOp == "-" || lastOp == "÷" || lastOp == "x") {
     currentOperation = currentOperation.slice(0,-1)
   }
 

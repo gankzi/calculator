@@ -48,3 +48,7 @@ body {
     grid-column-end: 5;
     
 }
+
+footer {
+    text-align: center;
+}
