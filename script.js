@@ -14,6 +14,8 @@ let secondNum;
 let answer;
 let dotPresent;
 
+//Math Functions
+
 function add(num1, num2) {
   let addNum1 = Number(num1);
   let addNum2 = Number(num2);
@@ -40,31 +42,50 @@ function operate(operateF, num1, num2) {
   operator = undefined;
 }
 
+//Add click Eventlisteners to all buttons
+
 numberButtons.forEach((numberButton) => {
   numberButton.addEventListener("click", function (event) {
-    displayNum(event.target);
+    handleNum(event.target.value);
   });
 });
 
 operators.forEach((operator) => {
   operator.addEventListener("click", function (event) {
-    setOperator(event.target);
+    setOperator(event.target.value);
   });
 });
 
 equals.addEventListener("click", function (event) {
-  evaluate(event.target);
+  evaluate(event.target.value);
 });
 
-
-
 if (clear) {
-  clear.addEventListener("click", function () {
-    clearDisplay();
-  });
-}
+  clear.addEventListener("click", clearDisplay);
+  };
 
-function displayNum(val) {
+//Add keyboard eventlistener
+
+document.addEventListener("keypress", function(event) {
+  let keyPressed = event.key;
+
+  if (keyPressed == "0" || keyPressed == "1" || keyPressed == "2" || keyPressed == "3" || keyPressed == "4" || keyPressed == "5" || keyPressed == "6" || keyPressed == "7" || keyPressed == "8" || keyPressed == "9" || keyPressed == ".") {
+    handleNum(keyPressed);
+  };
+
+  if (keyPressed == "+" || keyPressed == "-" || keyPressed == "*" || keyPressed == "/") {
+    setOperator(keyPressed);
+  }
+
+  if (keyPressed == "Enter") {
+    evaluate("=");
+  }
+
+})
+
+
+//When numbers are called
+function handleNum(val) {
   let lastOp = currentOperation.slice(-1) 
 
   
@@ -84,33 +105,31 @@ function displayNum(val) {
 
   
   if (!operator) {
-    if (firstNum && firstNum.includes(".")) {
-      disableDot();
-    }
     if (firstNum && firstNum !== answer) {
-        firstNum += val.value;
+        firstNum += val;
       } else if (!firstNum) {
-        firstNum = val.value;
+        firstNum = val;
+      }
+      if (firstNum && firstNum.includes(".")) {
+        disableDot();
       }
     display.innerHTML = firstNum;
   };
 
-
-
   //set Second Number
   if (operator) {
-   if (secondNum && secondNum.includes(".")) {
-    disableDot();
-   }
-   if (secondNum) {
-      secondNum += val.value;
+     if (secondNum) {
+      secondNum += val;
     } else if (!secondNum) {
-      secondNum = val.value;
+      secondNum = val;
     }
+    if (secondNum && secondNum.includes(".")) {
+      disableDot();
+     }
     display.innerHTML = secondNum;
   }
 
-  currentOperation = currentOperation + val.value;
+  currentOperation = currentOperation + val;
   operation.innerHTML = currentOperation;
 }
 
@@ -121,12 +140,19 @@ function setOperator(val) {
     operate(operator, firstNum, secondNum);
   }
 
-  // //set Operator
-  if (val.name == "add") {
+  if (val == "/") {
+    val = "÷";
+  }
+
+  if (val == "*") {
+    val = "x"
+  }
+
+  if (val == "+") {
     operator = add;
-  } else if (val.name == "subtract") {
+  } else if (val == "-") {
     operator = subtract;
-  } else if (val.name == "divide") {
+  } else if (val == "÷") {
     operator = divide;
   } else {
     operator = multiply;
@@ -143,7 +169,7 @@ function setOperator(val) {
     currentOperation = currentOperation.slice(0,-1)
   }
 
-  currentOperation = currentOperation + val.value;
+  currentOperation = currentOperation + val;
   operation.innerHTML = currentOperation;
 }
 
@@ -154,7 +180,7 @@ function evaluate(val) {
    if (lastOp == "="|| lastOp == "+" || lastOp == "-" || lastOp == "*" || lastOp == "/") {
     return;
    } 
-  currentOperation = currentOperation + val.value;
+  currentOperation = currentOperation + val;
   operation.innerHTML = currentOperation;
   operate(operator, firstNum, secondNum);
  };
