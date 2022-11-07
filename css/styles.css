@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.calculator {
+    width: 600px;
+    height: 800px;
+    margin: 200px auto;
+    border: 1px solid black;
+}
+
+.content-container {
+    height: 20%;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    padding: 10px;
+}
+
+.top {
+    background-color: gray;
+    height: 50%;
+    padding: 5px;
+}
+
+.top > p {
+    font-size: 50px;
+    text-align: right;
+}
+
+.main {
+    margin: auto;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-rows: 110px;
+    grid-gap: 10px;
+}
+
+.clear {
+    grid-column-start: 3;
+    grid-column-end: 5;
+    
+}

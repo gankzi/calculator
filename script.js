@@ -56,6 +56,8 @@ equals.addEventListener("click", function (event) {
   evaluate(event.target);
 });
 
+
+
 if (clear) {
   clear.addEventListener("click", function () {
     clearDisplay();
@@ -108,10 +110,6 @@ function displayNum(val) {
     display.innerHTML = secondNum;
   }
 
-  console.log(firstNum);
-  console.log(secondNum);
-
-
   currentOperation = currentOperation + val.value;
   operation.innerHTML = currentOperation;
 }
@@ -152,7 +150,8 @@ function setOperator(val) {
 function evaluate(val) {
   let lastOp = currentOperation.slice(-1);
   enableDot();
-   if (lastOp == "=") {
+
+   if (lastOp == "="|| lastOp == "+" || lastOp == "-" || lastOp == "*" || lastOp == "/") {
     return;
    } 
   currentOperation = currentOperation + val.value;
@@ -169,12 +168,12 @@ function clearDisplay() {
   currentOperation = "";
   operation.innerHTML = currentOperation;
   display.innerHTML = defaultNumber;
-}
+};
 
 function disableDot() {
   dotButton.disabled = true;
-}
+};
 
 function enableDot() {
   dotButton.disabled = false;
-}
+};
