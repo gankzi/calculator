@@ -2,6 +2,7 @@ let display = document.querySelector(".display");
 let operation = document.querySelector(".operation");
 let numberButtons = document.querySelectorAll(".number");
 let operators = document.querySelectorAll(".operator");
+let dotButton = document.getElementById("dot");
 let equals = document.getElementById("equals");
 let clear = document.getElementById("clear");
 
@@ -11,6 +12,7 @@ let operator;
 let firstNum;
 let secondNum;
 let answer;
+let dotPresent;
 
 function add(num1, num2) {
   let addNum1 = Number(num1);
@@ -30,8 +32,8 @@ function divide(num1, num2) {
   return num1 / num2;
 }
 
-function operate(operator, num1, num2) {
-  answer = operator(num1, num2);
+function operate(operateF, num1, num2) {
+  answer = operateF(num1, num2);
   display.innerHTML = answer;
   firstNum = undefined;
   secondNum = undefined;
@@ -61,24 +63,44 @@ if (clear) {
 }
 
 function displayNum(val) {
+  let lastOp = currentOperation.slice(-1) 
+
+  
+   //check if evaluated
+  if(lastOp == "=") {
+    return;
+  }
+  
+  if(lastOp == val.value && lastOp == "."){
+    return;
+  }
+  
   //set First Number
   if (answer) {
     firstNum = answer;
   };
 
+  
   if (!operator) {
-      if (firstNum && firstNum !== answer) {
+    if (firstNum && firstNum.includes(".")) {
+      disableDot();
+    }
+    if (firstNum && firstNum !== answer) {
         firstNum += val.value;
       } else if (!firstNum) {
         firstNum = val.value;
       }
-      display.innerHTML = firstNum;
-    }
-  
+    display.innerHTML = firstNum;
+  };
+
+
 
   //set Second Number
   if (operator) {
-    if (secondNum) {
+   if (secondNum && secondNum.includes(".")) {
+    disableDot();
+   }
+   if (secondNum) {
       secondNum += val.value;
     } else if (!secondNum) {
       secondNum = val.value;
@@ -86,11 +108,17 @@ function displayNum(val) {
     display.innerHTML = secondNum;
   }
 
+  console.log(firstNum);
+  console.log(secondNum);
+
+
   currentOperation = currentOperation + val.value;
   operation.innerHTML = currentOperation;
 }
 
 function setOperator(val) {
+  enableDot();
+
   if (secondNum) {
     operate(operator, firstNum, secondNum);
   }
@@ -105,16 +133,33 @@ function setOperator(val) {
   } else {
     operator = multiply;
   }
+    
+  let lastOp = currentOperation.slice(-1);
+
+  if (lastOp == "=") {
+    currentOperation = answer;
+    display.innerHTML = "";
+  } 
+
+  if (lastOp == "+" || lastOp == "-" || lastOp == "/" || lastOp == "*") {
+    currentOperation = currentOperation.slice(0,-1)
+  }
 
   currentOperation = currentOperation + val.value;
   operation.innerHTML = currentOperation;
 }
 
 function evaluate(val) {
+  let lastOp = currentOperation.slice(-1);
+  enableDot();
+   if (lastOp == "=") {
+    return;
+   } 
   currentOperation = currentOperation + val.value;
   operation.innerHTML = currentOperation;
   operate(operator, firstNum, secondNum);
-}
+ };
+
 
 function clearDisplay() {
   firstNum = undefined;
@@ -124,4 +169,12 @@ function clearDisplay() {
   currentOperation = "";
   operation.innerHTML = currentOperation;
   display.innerHTML = defaultNumber;
+}
+
+function disableDot() {
+  dotButton.disabled = true;
+}
+
+function enableDot() {
+  dotButton.disabled = false;
 }
