@@ -73,7 +73,7 @@ document.addEventListener("keypress", function(event) {
     handleNum(keyPressed);
   };
   
-  if (firstNum && !firstNum.includes(".") && keyPressed == ".") {
+  if (firstNum && !firstNum.includes(".") && !secondNum && keyPressed == ".") {
     handleNum(keyPressed);
   }
 
@@ -92,11 +92,9 @@ document.addEventListener("keypress", function(event) {
 })
 
 
-//When numbers are called
 function handleNum(val) {
   let lastOp = currentOperation.slice(-1) 
 
-  
    //check if evaluated
   if(lastOp == "=") {
     return;
@@ -111,7 +109,6 @@ function handleNum(val) {
     firstNum = answer;
   };
 
-  
   if (!operator) {
     if (firstNum && firstNum !== answer) {
         firstNum += val;
