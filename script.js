@@ -12,26 +12,27 @@ let operator;
 let firstNum;
 let secondNum;
 let answer;
-let dotPresent;
+let dotPresent = false;
+
 
 //Math Functions
 
 function add(num1, num2) {
   let addNum1 = Number(num1);
   let addNum2 = Number(num2);
-  return addNum1 + addNum2;
+  return parseInt(addNum1) + parseInt(addNum2);
 }
 
 function subtract(num1, num2) {
-  return num1 - num2;
+  return parseInt(num1) - parseInt(num2);
 }
 
 function multiply(num1, num2) {
-  return num1 * num2;
+  return parseInt(num1) * parseInt(num2);
 }
 
 function divide(num1, num2) {
-  return num1 / num2;
+  return parseInt(num1) / parseInt(num2);
 }
 
 function operate(operateF, num1, num2) {
@@ -41,6 +42,7 @@ function operate(operateF, num1, num2) {
   secondNum = undefined;
   operator = undefined;
 }
+
 
 //Add click Eventlisteners to all buttons
 
@@ -64,7 +66,8 @@ if (clear) {
   clear.addEventListener("click", clearDisplay);
   };
 
-//Add keyboard eventlistener
+
+// Add keyboard eventlistener
 
 document.addEventListener("keypress", function(event) {
   let keyPressed = event.key;
@@ -73,11 +76,7 @@ document.addEventListener("keypress", function(event) {
     handleNum(keyPressed);
   };
   
-  if (firstNum && !firstNum.includes(".") && !secondNum && keyPressed == ".") {
-    handleNum(keyPressed);
-  }
-
-  if (secondNum && !secondNum.includes(".") && keyPressed == ".") {
+  if (keyPressed == ".") {
     handleNum(keyPressed);
   }
 
@@ -88,8 +87,11 @@ document.addEventListener("keypress", function(event) {
   if (keyPressed == "Enter") {
     evaluate("=");
   }
-
+  
+  
 })
+
+
 
 
 function handleNum(val) {
@@ -104,6 +106,11 @@ function handleNum(val) {
     return;
   }
   
+  if(dotPresent && val == ".") {
+    val = "";
+  }
+  
+  
   //set First Number
   if (answer) {
     firstNum = answer;
@@ -115,21 +122,23 @@ function handleNum(val) {
       } else if (!firstNum) {
         firstNum = val;
       }
-      if (firstNum && firstNum.includes(".")) {
-        disableDot();
+    if (firstNum && val == "." && !dotPresent) {
+        console.log("hi");
+        dotPresent = true;
       }
     display.innerHTML = firstNum;
   };
 
   //set Second Number
   if (operator) {
+    
      if (secondNum) {
       secondNum += val;
     } else if (!secondNum) {
       secondNum = val;
     }
-    if (secondNum && secondNum.includes(".")) {
-      disableDot();
+    if (secondNum && !dotPresent && val == ".") {
+      dotPresent = true;
      }
     display.innerHTML = secondNum;
   }
@@ -139,7 +148,12 @@ function handleNum(val) {
 }
 
 function setOperator(val) {
-  enableDot();
+  dotPresent = false;
+
+  if(!firstNum) {
+    firstNum = 0;
+
+  }
 
   if (secondNum) {
     operate(operator, firstNum, secondNum);
@@ -180,9 +194,12 @@ function setOperator(val) {
 
 function evaluate(val) {
   let lastOp = currentOperation.slice(-1);
-  enableDot();
+  dotPresent = false;
+   if (!operator) {
+    return;
+   }
 
-   if (lastOp == "="|| lastOp == "+" || lastOp == "-" || lastOp == "*" || lastOp == "/") {
+   if (lastOp == "" || lastOp == "="|| lastOp == "+" || lastOp == "-" || lastOp == "*" || lastOp == "/") {
     return;
    } 
   currentOperation = currentOperation + val;
@@ -201,10 +218,3 @@ function clearDisplay() {
   display.innerHTML = defaultNumber;
 };
 
-function disableDot() {
-  dotButton.disabled = true;
-};
-
-function enableDot() {
-  dotButton.disabled = false;
-};
