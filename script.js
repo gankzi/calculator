@@ -96,8 +96,6 @@ document.addEventListener("keypress", function(event) {
 })
 
 
-
-
 function handleNum(val) {
   let lastOp = currentOperation.slice(-1) 
 
