@@ -18,25 +18,23 @@ let dotPresent = false;
 //Math Functions
 
 function add(num1, num2) {
-  let addNum1 = Number(num1);
-  let addNum2 = Number(num2);
-  return parseInt(addNum1) + parseInt(addNum2);
+  return num1 + num2;
 }
 
 function subtract(num1, num2) {
-  return parseInt(num1) - parseInt(num2);
+  return num1 - num2;
 }
 
 function multiply(num1, num2) {
-  return parseInt(num1) * parseInt(num2);
+  return num1 * num2;
 }
 
 function divide(num1, num2) {
-  return parseInt(num1) / parseInt(num2);
+  return num1 / num2;
 }
 
 function operate(operateF, num1, num2) {
-  answer = operateF(num1, num2);
+  answer = operateF(Number(num1), Number(num2));
   display.innerHTML = answer;
   firstNum = undefined;
   secondNum = undefined;
@@ -49,21 +47,27 @@ function operate(operateF, num1, num2) {
 numberButtons.forEach((numberButton) => {
   numberButton.addEventListener("click", function (event) {
     handleNum(event.target.value);
+    blurFocus(event.target);
   });
 });
 
 operators.forEach((operator) => {
   operator.addEventListener("click", function (event) {
     setOperator(event.target.value);
+    blurFocus(event.target);
   });
 });
 
 equals.addEventListener("click", function (event) {
   evaluate(event.target.value);
+  blurFocus(event.target);
 });
 
 if (clear) {
-  clear.addEventListener("click", clearDisplay);
+  clear.addEventListener("click", function(event) {
+    clearDisplay();
+    blurFocus(event.target);
+  });
   };
 
 
@@ -84,7 +88,7 @@ document.addEventListener("keypress", function(event) {
     setOperator(keyPressed);
   }
 
-  if (keyPressed == "Enter") {
+  if (keyPressed === "Enter") {
     evaluate("=");
   }
   
@@ -218,3 +222,6 @@ function clearDisplay() {
   display.innerHTML = defaultNumber;
 };
 
+function blurFocus(event) {
+  event.blur();
+}
