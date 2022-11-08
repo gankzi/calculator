@@ -127,7 +127,6 @@ function handleNum(val) {
         firstNum = val;
       }
     if (firstNum && val == "." && !dotPresent) {
-        console.log("hi");
         dotPresent = true;
       }
     display.innerHTML = firstNum;
