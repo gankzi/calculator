@@ -73,9 +73,9 @@ if (clear) {
 
 // Add keyboard eventlistener
 
-document.addEventListener("keypress", function(event) {
+document.addEventListener("keydown", function(event) {
   let keyPressed = event.key;
-
+ 
   if (keyPressed == "0" || keyPressed == "1" || keyPressed == "2" || keyPressed == "3" || keyPressed == "4" || keyPressed == "5" || keyPressed == "6" || keyPressed == "7" || keyPressed == "8" || keyPressed == "9") {
     handleNum(keyPressed);
   };
@@ -92,6 +92,9 @@ document.addEventListener("keypress", function(event) {
     evaluate("=");
   }
   
+  if (keyPressed === "Escape") {
+    clearDisplay();
+  }
   
 })
 
@@ -153,7 +156,6 @@ function setOperator(val) {
 
   if(!firstNum) {
     firstNum = 0;
-
   }
 
   if (secondNum) {
