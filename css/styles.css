@@ -46,7 +46,8 @@ body {
 .top > p {
     font-size: 50px;
     text-align: right;
-    overflow: hidden;
+    overflow-x: hidden;
+    padding-right: 5px;
 }
 
 .main {

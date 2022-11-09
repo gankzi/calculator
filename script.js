@@ -14,7 +14,6 @@ let secondNum;
 let answer;
 let dotPresent = false;
 
-
 //Math Functions
 
 function add(num1, num2) {
@@ -146,8 +145,18 @@ function handleNum(val) {
      }
     display.innerHTML = secondNum;
   }
-
+  
   currentOperation = currentOperation + val;
+  
+  //Adjust font size depnding on operation length
+  if (currentOperation.length > 40) {
+    operation.style.fontSize = "15px";
+  } else if (currentOperation.length > 20) {
+    operation.style.fontSize = "25px";
+  } else {
+    operation.style.fontSize = "50px";
+  }
+  
   operation.innerHTML = currentOperation;
 }
 
